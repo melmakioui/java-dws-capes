@@ -7,11 +7,7 @@ public class Main {
     public static void main(String[] args) {
 
         MovieDAOImp movieDAOImp = new MovieDAOImp();
-        System.out.println(movieDAOImp.getMovieWithDirector());
 
-        Movie movie = new Movie("a",2000,"te",12);
-
-        boolean x = movieDAOImp.insert(movie);
-        if (x) System.out.println("success");
+        System.out.println(movieDAOImp.list());
     }
 }

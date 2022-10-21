@@ -1,7 +1,7 @@
 package business;
 
 import data.DataAccess;
-import data.DataAccessMovie;
+import data.DataAccessMovieImpl;
 import dto.MovieDirectorDTO;
 import domain.Movie;
 import java.util.List;
@@ -11,7 +11,7 @@ public class MovieDAOImp implements DAO<Movie> {
     private DataAccess<Movie> dataAccess;
 
     public MovieDAOImp() {
-        this.dataAccess = new DataAccessMovie();
+        this.dataAccess = new DataAccessMovieImpl();
     }
 
     @Override
@@ -65,10 +65,4 @@ public class MovieDAOImp implements DAO<Movie> {
         return found;
     }
 
-    public List<MovieDirectorDTO> getMovieWithDirector(){
-
-        List<MovieDirectorDTO> movieDirectorDTOS = ((DataAccessMovie)this.dataAccess).getMovieWithDirector();
-
-        return movieDirectorDTOS;
-    }
 }
