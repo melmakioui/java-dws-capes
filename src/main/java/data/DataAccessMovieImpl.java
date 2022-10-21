@@ -102,8 +102,6 @@ public class DataAccessMovieImpl implements DataAccessMovie {
             int newMovie = pstm.executeUpdate();
 
             ResultSet generatedKeys = pstm.getGeneratedKeys();
-            if (generatedKeys.next())
-                System.out.println(generatedKeys.getLong(1));
 
             if (newMovie > 0)
                 return true;

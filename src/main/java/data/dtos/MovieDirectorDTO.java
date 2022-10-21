@@ -10,6 +10,16 @@ public class MovieDirectorDTO {
     private String director;
     private int age;
 
+    public MovieDirectorDTO(int id, String title, int year, String genre, int duration, String director, int age) {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.genre = genre;
+        this.duration = duration;
+        this.director = director;
+        this.age = age;
+    }
+
     public int getId() {
         return id;
     }
