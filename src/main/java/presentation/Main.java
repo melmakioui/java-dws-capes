@@ -1,13 +1,14 @@
 package presentation;
 
-import business.MovieDAOImp;
-import domain.Movie;
+import business.DirectorDAOImpl;
+import business.MovieDAOImpl;
+import domain.Director;
 
 public class Main {
     public static void main(String[] args) {
 
-        MovieDAOImp movieDAOImp = new MovieDAOImp();
+        MovieDAOImpl movieDAO = new MovieDAOImpl();
 
-        System.out.println(movieDAOImp.list());
+        System.out.println(movieDAO.searchByDuration(80));
     }
 }

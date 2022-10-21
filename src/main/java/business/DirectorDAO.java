@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DirectorDAO extends DAO<Director>{
 
-    String searchByName(String name);
+    Director searchByName(String name);
     List<Director> searchByAge(int age);
 
 }

@@ -10,12 +10,14 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
 
     private Connection connection;
     private final String SELECT = "SELECT * FROM director";
-    private final String SELECT_LIKE = "SELECT * FROM director WHERE name LIKE ?";
+    private final String SELECT_LIKE = "SELECT * FROM director WHERE name LIKE ? OR age LIKE ?";
+    private final String SELECT_BY_NAME = "SELECT * FROM director WHERE name LIKE ?";
+    private final String SELECT_BY_AGE =  "SELECT * FROM director WHERE age = ?";
     private final String UPDATE = "UPDATE director SET name = ?, age = ? WHERE id = ?";
     private final String INSERT = "INSERT INTO director (name,age) VALUES  (?,?)";
     private final String DELETE = "DELETE FROM director WHERE id=?";
 
-    public DataAccessDirectorImpl() { //Reutilizar constructor
+    public DataAccessDirectorImpl() {
         try {
             this.connection = ConnectionMysql.getConnection();
         }catch (SQLException error){
@@ -127,6 +129,8 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
         try (PreparedStatement pstm = this.connection.prepareStatement(SELECT_LIKE)) {
 
             pstm.setString(1, directorToSearch);
+            pstm.setString(2, directorToSearch);
+
             ResultSet rs = pstm.executeQuery();
 
             if (rs.next()) {
@@ -141,13 +145,53 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
         }
         return null;
     }
+
     @Override
-    public String searchByName(String name) {
+    public Director searchByName(String directorName) {
+
+        String directorToSearch = "%" + directorName + "%";
+
+        try (PreparedStatement pstm = this.connection.prepareStatement(SELECT_BY_NAME)) {
+
+            pstm.setString(1, directorToSearch);
+
+            ResultSet rs = pstm.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                int age = rs.getInt("age");
+
+                return new Director(id,name,age);
+            }
+        } catch (SQLException err) {
+            System.out.println("ERROR TO SEARCH " + err);
+        }
         return null;
     }
 
     @Override
-    public List<Director> searchByAge(int age) {
+    public List<Director> searchByAge(int directorAge) {
+
+        int ageToSearch =  directorAge;
+        List<Director> directorList = new ArrayList<>();
+
+        try (PreparedStatement pstm = this.connection.prepareStatement(SELECT_BY_AGE)) {
+
+            pstm.setInt(1, ageToSearch);
+            ResultSet rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                int age = rs.getInt("age");
+                directorList.add(new Director(id,name,age));
+            }
+
+            return directorList;
+        } catch (SQLException err) {
+            System.out.println("ERROR TO SEARCH " + err);
+        }
         return null;
     }
 }

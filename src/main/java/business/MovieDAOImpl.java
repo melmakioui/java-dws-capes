@@ -1,15 +1,27 @@
 package business;
 
+import data.DataAccessMovie;
+import data.DataAccessMovieImpl;
 import domain.Movie;
 
 import java.util.List;
 
 public class MovieDAOImpl implements MovieDAO{
 
+    private DataAccessMovie dataAccessMovie;
+
+    public MovieDAOImpl() {
+        this.dataAccessMovie = new DataAccessMovieImpl();
+    }
 
     @Override
     public List<Movie> list() {
-        return null;
+        List<Movie> movieList = dataAccessMovie.list();
+
+        if (movieList.isEmpty())
+            System.out.println("EMPTY");
+
+        return movieList;
     }
 
     @Override
@@ -44,21 +56,29 @@ public class MovieDAOImpl implements MovieDAO{
 
     @Override
     public Movie searchByTitle(String title) {
-        return null;
+        Movie movie = dataAccessMovie.searchByTitle(title);
+
+        if (movie == null)
+            return new Movie();
+
+        return movie;
     }
 
     @Override
     public List<Movie> searchByYear(int year) {
-        return null;
+        List<Movie> movieList = dataAccessMovie.searchByYear(year);
+        return movieList;
     }
 
     @Override
     public List<Movie> searchByGenre(String genre) {
-        return null;
+        List<Movie> movieList = dataAccessMovie.searchByGenre(genre);
+        return movieList;
     }
 
     @Override
     public List<Movie> searchByDuration(int duration) {
-        return null;
+        List<Movie> movieList = dataAccessMovie.searchByDuration(duration);
+        return movieList;
     }
 }
