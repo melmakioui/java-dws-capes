@@ -19,7 +19,7 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
 
     public DataAccessDirectorImpl() {
         try {
-            this.connection = ConnectionMysql.getConnection();
+            this.connection = ConnectionPostgres.getConnection();
         }catch (SQLException error){
             System.out.println("ERROR TO CONNECT WITH DATABASE " + error );
         }

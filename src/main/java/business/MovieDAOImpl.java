@@ -41,7 +41,7 @@ public class MovieDAOImpl implements MovieDAO{
 
     @Override
     public boolean insert(Movie movie) {
-        return false;
+        return this.dataAccessMovie.insert(movie);
     }
 
     @Override

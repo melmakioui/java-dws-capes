@@ -1,20 +1,20 @@
 package presentation;
 
-import business.DirectorDAOImpl;
-import business.MovieDAOImpl;
-import business.MovieDirector;
+import business.MovieDirectorDAO;
 import business.MovieDirectorDAOImpl;
 import domain.Director;
 import domain.Movie;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
 
-        MovieDirector movieDAO = new MovieDirectorDAOImpl();
-        Director director = new Director("test",20);
-        Movie movie = new Movie("test",2000,"test",100);
+        MovieDirectorDAO movieDAO = new MovieDirectorDAOImpl();
+        Director director = new Director("vass",40);
+        Movie movie = new Movie("vasss",2012,"vasss",200);
         movieDAO.insertMovieDirector(director,movie);
-
 
     }
 }

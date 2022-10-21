@@ -1,4 +1,4 @@
-package data.dtos;
+package data.pojos;
 
 public class MovieDirectorDTO {
 

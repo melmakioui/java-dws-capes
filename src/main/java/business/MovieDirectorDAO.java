@@ -1,12 +1,12 @@
 package business;
 
-import data.dtos.MovieDirectorDTO;
+import data.pojos.MovieDirectorDTO;
 import domain.Director;
 import domain.Movie;
 
 import java.util.List;
 
-public interface MovieDirector {
+public interface MovieDirectorDAO {
 
     List<MovieDirectorDTO> getMovieDirectorList();
     boolean insertMovieDirector(Director director, Movie movie);

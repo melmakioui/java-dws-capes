@@ -1,6 +1,6 @@
 package data;
 
-import data.dtos.MovieDirectorDTO;
+import data.pojos.MovieDirectorDTO;
 import domain.Director;
 import domain.Movie;
 

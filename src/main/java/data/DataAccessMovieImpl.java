@@ -18,11 +18,10 @@ public class DataAccessMovieImpl implements DataAccessMovie {
     private final String SELECT_BY_YEAR = "SELECT * FROM movie WHERE year = ?";
     private final String SELECT_BY_GENRE = "SELECT * FROM movie WHERE genre LIKE ?";
     private final String SELECT_BY_DURATION = "SELECT * FROM movie WHERE duration = ?";
-//    private final String SELECT_JOIN = "SELECT movie.*, director.name from movie,director where movie.id = director.id";
 
     public DataAccessMovieImpl(){
         try {
-            this.connection = ConnectionMysql.getConnection();
+            this.connection = ConnectionPostgres.getConnection();
         }catch (SQLException error){
             System.out.println("ERROR TO CONNECT WITH DATABASE " + error );
         }
@@ -93,15 +92,14 @@ public class DataAccessMovieImpl implements DataAccessMovie {
 
     @Override
     public boolean insert(Movie movie) {
-        try (PreparedStatement pstm = this.connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement pstm = this.connection.prepareStatement(INSERT)) {
+
             pstm.setString(1, movie.getTitle());
             pstm.setInt(2, movie.getYear());
             pstm.setString(3, movie.getGenre());
             pstm.setInt(4, movie.getDuration());
 
             int newMovie = pstm.executeUpdate();
-
-            ResultSet generatedKeys = pstm.getGeneratedKeys();
 
             if (newMovie > 0)
                 return true;

@@ -2,13 +2,13 @@ package business;
 
 import data.DataAccessMovieDirector;
 import data.DataAccessMovieDirectorImpl;
-import data.dtos.MovieDirectorDTO;
+import data.pojos.MovieDirectorDTO;
 import domain.Director;
 import domain.Movie;
 
 import java.util.List;
 
-public class MovieDirectorDAOImpl implements MovieDirector{
+public class MovieDirectorDAOImpl implements MovieDirectorDAO {
 
     private DataAccessMovieDirector dataAccessMovieDirector = new DataAccessMovieDirectorImpl();
     @Override
