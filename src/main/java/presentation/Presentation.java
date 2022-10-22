@@ -143,11 +143,6 @@ public class Presentation {
         System.out.println("20. SEARCH DIRECTOR BY AGE");
     }
 
-    private static void csvOptions(){
-        System.out.println("EXPORT");
-        System.out.println("1. EXPORT DATA");
-
-    }
 
     private static void exit(){
         System.exit(1);

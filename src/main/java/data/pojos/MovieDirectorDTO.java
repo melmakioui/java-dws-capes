@@ -78,13 +78,6 @@ public class MovieDirectorDTO {
 
     @Override
     public String toString() {
-        return "{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", year=" + year +
-                ", genre='" + genre + '\'' +
-                ", duration=" + duration +
-                ", director='" + director + '\'' +
-                '}';
+        return "Movie: " + "id: " + id + " title: " + title + " year: " + year + " genre " + genre + " duration: " + duration +  " age: " + age + "\n";
     }
 }

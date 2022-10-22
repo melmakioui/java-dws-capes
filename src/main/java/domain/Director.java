@@ -45,12 +45,9 @@ public class Director {
         this.age = age;
     }
 
+
     @Override
     public String toString() {
-        return "Director{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                '}';
+        return "Director: " + "id: " + id + " " + "name: " + name + " " + "age: " + age + "\n";
     }
 }

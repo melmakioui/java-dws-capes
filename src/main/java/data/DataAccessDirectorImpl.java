@@ -1,15 +1,6 @@
 package data;
-
-import com.opencsv.CSVWriter;
-import csvwriter.ExportCSV;
 import data.config.ConnectionDatabase;
 import domain.Director;
-
-import javax.sql.rowset.CachedRowSet;
-import javax.sql.rowset.RowSetFactory;
-import javax.sql.rowset.RowSetProvider;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

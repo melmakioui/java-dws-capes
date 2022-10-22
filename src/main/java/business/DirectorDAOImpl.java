@@ -14,7 +14,6 @@ public class DirectorDAOImpl implements DirectorDAO{
 
     public DirectorDAOImpl(ConnectionDatabase connectionDatabase) {
         this.connectionDatabase = connectionDatabase;
-        this.dataAccessDirector = new DataAccessDirectorImpl(this.connectionDatabase,true);
     }
 
     @Override
