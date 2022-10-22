@@ -2,7 +2,7 @@ package presentation;
 
 import business.MovieDAO;
 import business.MovieDAOImpl;
-import data.ConnectionDatabase;
+import data.config.ConnectionDatabase;
 import domain.Movie;
 
 import java.util.List;

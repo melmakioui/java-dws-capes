@@ -4,6 +4,7 @@ import business.DirectorDAO;
 import business.DirectorDAOImpl;
 import business.MovieDAO;
 import business.MovieDAOImpl;
+import data.config.ConnectionDatabase;
 import data.pojos.MovieDirectorDTO;
 import domain.Director;
 import domain.Movie;
@@ -61,79 +62,26 @@ public class DataAccessMovieDirectorImpl implements DataAccessMovieDirector {
     }
 
     @Override
-    public boolean insertMovieDirector(Director director, Movie movie) {
+    public boolean insertMovieDirector(int movie, int director) {
 
         try (PreparedStatement pstmRelation = this.connection.prepareStatement(INSERT_RELATIONSHIP)) {
 
             this.connection.setAutoCommit(false);
 
-            long idMovie = insertMovie(movie);
-            long idDirector = insertDirector(director);
-
-            pstmRelation.setLong(1, idMovie);
-            pstmRelation.setLong(2, idDirector);
+            pstmRelation.setLong(1, movie);
+            pstmRelation.setLong(2, director);
             pstmRelation.executeUpdate();
 
             this.connection.commit();
             return true;
         } catch (SQLException error) {
             System.out.println("ERROR INSERTING MOVIE " + error);
-
             try {
                 this.connection.rollback();
             } catch (SQLException err) {
                 System.out.println("ERROR ROLLBACK");
             }
         }
-
         return false;
     }
-
-    private long insertMovie(Movie movie) {
-        try (PreparedStatement preparedStatement = this.connection.prepareStatement(INSERT_MOVIE, Statement.RETURN_GENERATED_KEYS)) {
-
-            preparedStatement.setString(1, movie.getTitle());
-            preparedStatement.setInt(2, movie.getYear());
-            preparedStatement.setString(3, movie.getGenre());
-            preparedStatement.setInt(4, movie.getDuration());
-
-            int resultMovie = preparedStatement.executeUpdate();
-
-            ResultSet resultSetMovie = preparedStatement.getGeneratedKeys();
-
-            if (resultSetMovie.next())
-                return resultSetMovie.getLong(1);
-            else throw new SQLException();
-
-        } catch (SQLException error) {
-            System.out.println("ERROR");
-        }
-        return 0;
-    }
-
-    private long insertDirector(Director director) {
-        try (PreparedStatement preparedStatement = this.connection.prepareStatement(INSERT_DIRECTOR, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, director.getName());
-            preparedStatement.setInt(2, director.getAge());
-
-            List<Director> find = directorDAO.list();
-
-            for (Director directorExists : find)
-                if (directorExists.getName().equals(director.getName()))
-                    return directorExists.getId();
-
-            int resultDirector = preparedStatement.executeUpdate();
-
-            ResultSet resultSetDirector = preparedStatement.getGeneratedKeys();
-
-            if (resultSetDirector.next())
-                return resultSetDirector.getLong(1);
-            else throw new SQLException();
-
-        } catch (SQLException error) {
-            System.out.println("ERROR");
-        }
-        return 0;
-    }
-
 }

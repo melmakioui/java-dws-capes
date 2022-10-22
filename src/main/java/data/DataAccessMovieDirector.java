@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface DataAccessMovieDirector {
     List<MovieDirectorDTO> getMovieDirectorList();
-    boolean insertMovieDirector(Director director, Movie movie);
+    boolean insertMovieDirector(int movie, int director);
 
 }

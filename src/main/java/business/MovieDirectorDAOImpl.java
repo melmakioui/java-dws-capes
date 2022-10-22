@@ -1,6 +1,6 @@
 package business;
 
-import data.ConnectionDatabase;
+import data.config.ConnectionDatabase;
 import data.DataAccessMovieDirector;
 import data.DataAccessMovieDirectorImpl;
 import data.pojos.MovieDirectorDTO;
@@ -25,7 +25,7 @@ public class MovieDirectorDAOImpl implements MovieDirectorDAO {
     }
 
     @Override
-    public boolean insertMovieDirector(Director director, Movie movie) {
-        return dataAccessMovieDirector.insertMovieDirector(director,movie);
+    public boolean insertMovieDirector(int movieId, int directorId) {
+        return dataAccessMovieDirector.insertMovieDirector(movieId,directorId);
     }
 }

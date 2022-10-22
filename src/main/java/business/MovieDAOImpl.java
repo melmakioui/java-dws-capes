@@ -1,7 +1,6 @@
 package business;
 
-import data.ConnectionDatabase;
-import data.ConnectionMysql;
+import data.config.ConnectionDatabase;
 import data.DataAccessMovie;
 import data.DataAccessMovieImpl;
 import domain.Movie;

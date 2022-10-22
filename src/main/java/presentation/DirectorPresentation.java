@@ -2,7 +2,7 @@ package presentation;
 
 import business.DirectorDAO;
 import business.DirectorDAOImpl;
-import data.ConnectionDatabase;
+import data.config.ConnectionDatabase;
 import domain.Director;
 
 import java.util.List;
@@ -49,7 +49,7 @@ public class DirectorPresentation {
             if (director.getId() == directorUpdate)
                 updateDirector = director;
 
-        showUpdateMovieOptions();
+        showUpdateDirectorOptions();
         int fieldToUpdate = directorInput.nextInt();
         updateMovie(updateDirector, fieldToUpdate);
 
@@ -57,7 +57,7 @@ public class DirectorPresentation {
             System.out.println("UPDATED");
     }
 
-    private static void showUpdateMovieOptions() {
+    private static void showUpdateDirectorOptions() {
         System.out.println("*UPDATING MOVIE*");
         System.out.println("1. UPDATE NAME");
         System.out.println("2. UPDATE AGE");
@@ -119,5 +119,46 @@ public class DirectorPresentation {
                     System.out.println("SUCCESS.");
             }
         }
+    }
+
+    public static void search(){
+        Scanner searchInput = new Scanner(System.in);
+
+        System.out.println("TYPE THE MOVIE YOU WANT TO SEARCH (TITLE)");
+        System.out.print("> ");
+        String movieSearch = searchInput.next();
+
+
+        if (directorDAO.search(movieSearch) == null)
+            System.out.println("NOT FOUND.");
+        else System.out.println(directorDAO.search(movieSearch));
+    }
+
+    public static void searchByName(){
+        Scanner searchNameInput = new Scanner(System.in);
+
+        System.out.println("TYPE THE DIRECTOR YOU WANT TO SEARCH (NAME)");
+        System.out.print("> ");
+        String directorName = searchNameInput.next();
+
+        Director director = directorDAO.searchByName(directorName);
+
+        if(director == null)
+            System.out.println("NOT FOUND");
+        else System.out.println(director);
+    }
+
+    public static void searchByAge(){
+        Scanner searchAgeInput = new Scanner(System.in);
+
+        System.out.println("TYPE THE MOVIE YOU WANT TO SEARCH (AGE)");
+        System.out.print("> ");
+        int directorAge = searchAgeInput.nextInt();
+
+        List<Director> directorList = directorDAO.searchByAge(directorAge);
+
+        if(directorList.isEmpty())
+            System.out.println("NO DIRECTORS FOUND WITH AGE " + directorAge);
+        else System.out.println(directorList);
     }
 }

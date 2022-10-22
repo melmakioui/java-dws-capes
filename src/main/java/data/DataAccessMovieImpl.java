@@ -1,10 +1,8 @@
 package data;
 
-import com.opencsv.CSVWriter;
+import data.config.ConnectionDatabase;
 import domain.Movie;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

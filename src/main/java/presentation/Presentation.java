@@ -1,8 +1,8 @@
 package presentation;
 
-import data.ConnectionDatabase;
-import data.ConnectionMysql;
-import data.ConnectionPostgres;
+import data.config.ConnectionDatabase;
+import data.config.ConnectionMysql;
+import data.config.ConnectionPostgres;
 
 import java.util.Scanner;
 
@@ -44,10 +44,10 @@ public class Presentation {
         if (option < 13 && option > 2)
             initMovie(option);
 
-        if (option < 20 && option > 12)
+        if (option < 21 && option > 12)
             initDirector(option);
 
-        if (option == 20)
+        if (option == 21)
             exit();
     }
 
@@ -57,7 +57,7 @@ public class Presentation {
 
         switch (option) {
             case 1 -> MovieDirectorPresentation.listMoviesDirectors();
-            case 2 -> MovieDirectorPresentation.insertMovieDirectors();
+            case 2 -> MovieDirectorPresentation.associateMovieToDirector();
         }
     }
 
@@ -88,14 +88,14 @@ public class Presentation {
             case 15 -> DirectorPresentation.update();
             case 16 -> DirectorPresentation.insert();
             case 17 -> DirectorPresentation.delete();
-//            case 18 -> DirectorPresentation.
-//            case 19 ->
-//            case 20 ->
-
+            case 18 -> DirectorPresentation.search();
+            case 19 -> DirectorPresentation.searchByName();
+            case 20 -> DirectorPresentation.searchByAge();
         }
     }
 
     private static void showDataBaseOptions(){
+        System.out.println();
         System.out.println("***MOVIES CATALOGUE***");
         System.out.println("WHICH DATABASE YOU WANT TO USE");
         System.out.println("1. MySQL");
@@ -104,12 +104,14 @@ public class Presentation {
     }
 
     private static void showOptions(){
+        System.out.println();
         System.out.println("**SELECT ONE OPTION**");
         System.out.println("-----MOVIE & DIRECTOR-----");
         System.out.println("1. SELECT MOVIES AND THEIR DIRECTORS");
-        System.out.println("2. INSERT MOVIE AND DIRECTOR");
+        System.out.println("2. ASSOCIATE MOVIE WITH DIRECTOR");
         showMovieOptions();
         showDirectorOptions();
+        System.out.println("21. EXIT");
     }
 
     private static void showMovieOptions(){

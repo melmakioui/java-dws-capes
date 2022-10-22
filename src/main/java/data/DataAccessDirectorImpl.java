@@ -1,5 +1,6 @@
 package data;
 
+import data.config.ConnectionDatabase;
 import domain.Director;
 
 import java.sql.*;
@@ -12,7 +13,7 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
     private ConnectionDatabase connectionDatabase;
 
     private final String SELECT = "SELECT * FROM director";
-    private final String SELECT_LIKE = "SELECT * FROM director WHERE name LIKE ? OR age LIKE ?";
+    private final String SELECT_LIKE = "SELECT * FROM director WHERE name LIKE ?";
     private final String SELECT_BY_NAME = "SELECT * FROM director WHERE name LIKE ?";
     private final String SELECT_BY_AGE = "SELECT * FROM director WHERE age = ?";
     private final String UPDATE = "UPDATE director SET name = ?, age = ? WHERE id = ?";
@@ -132,8 +133,6 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
         try (PreparedStatement pstm = this.connection.prepareStatement(SELECT_LIKE)) {
 
             pstm.setString(1, directorToSearch);
-            pstm.setString(2, directorToSearch);
-
             ResultSet rs = pstm.executeQuery();
 
             if (rs.next()) {
