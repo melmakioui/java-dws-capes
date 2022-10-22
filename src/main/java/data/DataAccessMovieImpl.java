@@ -1,7 +1,10 @@
 package data;
 
+import com.opencsv.CSVWriter;
 import domain.Movie;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +12,7 @@ import java.util.List;
 public class DataAccessMovieImpl implements DataAccessMovie {
 
     private Connection connection;
+    private ConnectionDatabase connectionDatabase;
     private final String SELECT = "SELECT * FROM movie";
     private final String SELECT_LIKE = "SELECT * FROM movie WHERE title LIKE ?";
     private final String UPDATE = "UPDATE movie SET title = ?, year = ?,  genre = ?, duration = ? WHERE id = ?";
@@ -19,11 +23,12 @@ public class DataAccessMovieImpl implements DataAccessMovie {
     private final String SELECT_BY_GENRE = "SELECT * FROM movie WHERE genre LIKE ?";
     private final String SELECT_BY_DURATION = "SELECT * FROM movie WHERE duration = ?";
 
-    public DataAccessMovieImpl(){
+    public DataAccessMovieImpl(ConnectionDatabase connectionDatabase) {
+        this.connectionDatabase = connectionDatabase;
         try {
-            this.connection = ConnectionPostgres.getConnection();
-        }catch (SQLException error){
-            System.out.println("ERROR TO CONNECT WITH DATABASE " + error );
+            this.connection = connectionDatabase.getConnection();
+        } catch (SQLException error) {
+            System.out.println("ERROR TO CONNECT WITH DATABASE " + error);
         }
     }
 
@@ -31,19 +36,19 @@ public class DataAccessMovieImpl implements DataAccessMovie {
     public List<Movie> list() {
         List<Movie> movies = new ArrayList<>();
 
-        try(Statement stm = this.connection.createStatement();
-            ResultSet result = stm.executeQuery(SELECT)){
+        try (Statement stm = this.connection.createStatement();
+             ResultSet result = stm.executeQuery(SELECT)) {
 
-            while (result.next()){
+            while (result.next()) {
                 int id = result.getInt("id");
                 String title = result.getString("title");
                 int year = result.getInt("year");
                 String genre = result.getString("genre");
                 int duration = result.getInt("duration");
 
-                movies.add(new Movie(id,title,year,genre,duration));
+                movies.add(new Movie(id, title, year, genre, duration));
             }
-        }catch (SQLException error){
+        } catch (SQLException error) {
             System.out.println("ERROR LISTING MOVIES " + error);
         }
         return movies;
@@ -77,7 +82,7 @@ public class DataAccessMovieImpl implements DataAccessMovie {
             pstm.setInt(2, movie.getYear());
             pstm.setString(3, movie.getGenre());
             pstm.setInt(4, movie.getDuration());
-            pstm.setInt(5,updatedMovieId);
+            pstm.setInt(5, updatedMovieId);
 
             int result = pstm.executeUpdate();
 
@@ -143,7 +148,7 @@ public class DataAccessMovieImpl implements DataAccessMovie {
                 String genre = rs.getString("genre");
                 int duration = rs.getInt("duration");
 
-                return new Movie(id,title,year,genre,duration);
+                return new Movie(id, title, year, genre, duration);
             }
 
         } catch (SQLException err) {
@@ -168,7 +173,7 @@ public class DataAccessMovieImpl implements DataAccessMovie {
                 String genre = rs.getString("genre");
                 int duration = rs.getInt("duration");
 
-                return new Movie(id,title,year,genre,duration);
+                return new Movie(id, title, year, genre, duration);
             }
 
         } catch (SQLException err) {
@@ -195,7 +200,7 @@ public class DataAccessMovieImpl implements DataAccessMovie {
                 String genre = rs.getString("genre");
                 int duration = rs.getInt("duration");
 
-                movieList.add(new Movie(id,title,year,genre,duration));
+                movieList.add(new Movie(id, title, year, genre, duration));
             }
 
             return movieList;
@@ -222,7 +227,7 @@ public class DataAccessMovieImpl implements DataAccessMovie {
                 String genre = rs.getString("genre");
                 int duration = rs.getInt("duration");
 
-                movieList.add(new Movie(id,title,year,genre,duration));
+                movieList.add(new Movie(id, title, year, genre, duration));
             }
             return movieList;
         } catch (SQLException err) {
@@ -248,7 +253,7 @@ public class DataAccessMovieImpl implements DataAccessMovie {
                 String genre = rs.getString("genre");
                 int duration = rs.getInt("duration");
 
-                movieList.add(new Movie(id,title,year,genre,duration));
+                movieList.add(new Movie(id, title, year, genre, duration));
             }
             return movieList;
         } catch (SQLException err) {

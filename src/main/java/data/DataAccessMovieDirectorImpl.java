@@ -15,6 +15,7 @@ import java.util.List;
 public class DataAccessMovieDirectorImpl implements DataAccessMovieDirector {
 
     private Connection connection;
+    private ConnectionDatabase connectionDatabase;
     private MovieDAO movieDAO;
     private DirectorDAO directorDAO;
     private final String INSERT_MOVIE = "INSERT INTO movie (title,year,genre,duration) VALUES (?,?,?,?)";
@@ -22,13 +23,15 @@ public class DataAccessMovieDirectorImpl implements DataAccessMovieDirector {
     private final String INSERT_RELATIONSHIP = "INSERT INTO movie_director (idMovie,idDirector) VALUES (?,?)";
     private static final String SELECT_JOIN = "SELECT movie.*, director.* from movie,director where movie.id = director.id";
 
-    public DataAccessMovieDirectorImpl() {
-        this.movieDAO = new MovieDAOImpl();
-        this.directorDAO = new DirectorDAOImpl();
+    public DataAccessMovieDirectorImpl(ConnectionDatabase connectionDatabase) {
+        this.connectionDatabase = connectionDatabase;
+        this.movieDAO = new MovieDAOImpl(this.connectionDatabase);
+        this.directorDAO = new DirectorDAOImpl(this.connectionDatabase);
+
         try {
-            this.connection = ConnectionPostgres.getConnection();
-        } catch (SQLException err) {
-            System.out.println("ERROR TO CONNECT WITH DB");
+            this.connection = connectionDatabase.getConnection();
+        } catch (SQLException error) {
+            System.out.println("ERROR TO CONNECT WITH DATABASE " + error);
         }
     }
 
@@ -67,10 +70,8 @@ public class DataAccessMovieDirectorImpl implements DataAccessMovieDirector {
             long idMovie = insertMovie(movie);
             long idDirector = insertDirector(director);
 
-            System.out.println(idDirector);
-
-            pstmRelation.setLong(1,idMovie);
-            pstmRelation.setLong(2,idDirector);
+            pstmRelation.setLong(1, idMovie);
+            pstmRelation.setLong(2, idDirector);
             pstmRelation.executeUpdate();
 
             this.connection.commit();
@@ -117,7 +118,7 @@ public class DataAccessMovieDirectorImpl implements DataAccessMovieDirector {
 
             List<Director> find = directorDAO.list();
 
-            for (Director directorExists: find)
+            for (Director directorExists : find)
                 if (directorExists.getName().equals(director.getName()))
                     return directorExists.getId();
 

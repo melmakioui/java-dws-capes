@@ -1,5 +1,7 @@
 package business;
 
+import data.ConnectionDatabase;
+import data.ConnectionMysql;
 import data.DataAccessMovie;
 import data.DataAccessMovieImpl;
 import domain.Movie;
@@ -9,9 +11,11 @@ import java.util.List;
 public class MovieDAOImpl implements MovieDAO{
 
     private DataAccessMovie dataAccessMovie;
+    private ConnectionDatabase connectionDatabase;
 
-    public MovieDAOImpl() {
-        this.dataAccessMovie = new DataAccessMovieImpl();
+    public MovieDAOImpl(ConnectionDatabase connectionDatabase) {
+        this.connectionDatabase = connectionDatabase;
+        this.dataAccessMovie = new DataAccessMovieImpl(this.connectionDatabase);
     }
 
     @Override
@@ -31,12 +35,12 @@ public class MovieDAOImpl implements MovieDAO{
 
     @Override
     public boolean exists(String data) {
-        return false;
+        return dataAccessMovie.exists(data);
     }
 
     @Override
     public boolean update(Movie movie) {
-        return false;
+        return dataAccessMovie.update(movie);
     }
 
     @Override
@@ -46,20 +50,17 @@ public class MovieDAOImpl implements MovieDAO{
 
     @Override
     public boolean delete(Movie movie) {
-        return false;
+        return dataAccessMovie.delete(movie);
     }
 
     @Override
-    public Movie search(String t) {
-        return null;
+    public Movie search(String title) {
+        return dataAccessMovie.search(title);
     }
 
     @Override
     public Movie searchByTitle(String title) {
         Movie movie = dataAccessMovie.searchByTitle(title);
-
-        if (movie == null)
-            return new Movie();
 
         return movie;
     }

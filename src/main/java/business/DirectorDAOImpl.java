@@ -1,17 +1,19 @@
 package business;
 
-import data.DataAccessDirector;
-import data.DataAccessDirectorImpl;
+import data.*;
 import domain.Director;
 
 import java.util.List;
 
 public class DirectorDAOImpl implements DirectorDAO{
 
+    private DataAccessMovie dataAccessMovie;
+    private ConnectionDatabase connectionDatabase;
     private DataAccessDirector dataAccessDirector;
 
-    public DirectorDAOImpl() {
-        this.dataAccessDirector = new DataAccessDirectorImpl();
+    public DirectorDAOImpl(ConnectionDatabase connectionDatabase) {
+        this.connectionDatabase = connectionDatabase;
+        this.dataAccessDirector = new DataAccessDirectorImpl(this.connectionDatabase);
     }
 
     @Override

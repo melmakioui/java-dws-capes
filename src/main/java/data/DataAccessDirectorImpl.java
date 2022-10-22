@@ -9,19 +9,22 @@ import java.util.List;
 public class DataAccessDirectorImpl implements DataAccessDirector {
 
     private Connection connection;
+    private ConnectionDatabase connectionDatabase;
+
     private final String SELECT = "SELECT * FROM director";
     private final String SELECT_LIKE = "SELECT * FROM director WHERE name LIKE ? OR age LIKE ?";
     private final String SELECT_BY_NAME = "SELECT * FROM director WHERE name LIKE ?";
-    private final String SELECT_BY_AGE =  "SELECT * FROM director WHERE age = ?";
+    private final String SELECT_BY_AGE = "SELECT * FROM director WHERE age = ?";
     private final String UPDATE = "UPDATE director SET name = ?, age = ? WHERE id = ?";
     private final String INSERT = "INSERT INTO director (name,age) VALUES  (?,?)";
     private final String DELETE = "DELETE FROM director WHERE id=?";
 
-    public DataAccessDirectorImpl() {
+    public DataAccessDirectorImpl(ConnectionDatabase connectionDatabase) {
+        this.connectionDatabase = connectionDatabase;
         try {
-            this.connection = ConnectionPostgres.getConnection();
-        }catch (SQLException error){
-            System.out.println("ERROR TO CONNECT WITH DATABASE " + error );
+            this.connection = connectionDatabase.getConnection();
+        } catch (SQLException error) {
+            System.out.println("ERROR TO CONNECT WITH DATABASE " + error);
         }
     }
 
@@ -29,17 +32,17 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
     public List<Director> list() {
         List<Director> directors = new ArrayList<>();
 
-        try(Statement stm = this.connection.createStatement();
-            ResultSet result = stm.executeQuery(SELECT)){
+        try (Statement stm = this.connection.createStatement();
+             ResultSet result = stm.executeQuery(SELECT)) {
 
-            while (result.next()){
+            while (result.next()) {
                 int id = result.getInt("id");
                 String name = result.getString("name");
                 int age = result.getInt("age");
 
-                directors.add(new Director(id,name,age));
+                directors.add(new Director(id, name, age));
             }
-        }catch (SQLException error) {
+        } catch (SQLException error) {
             System.out.println("ERROR LISTING DIRECTORS " + error);
         }
         return directors;
@@ -69,7 +72,7 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
         Director updateDirector = director;
         int directorId = updateDirector.getId();
 
-        try(PreparedStatement pstm = this.connection.prepareStatement(UPDATE) ) {
+        try (PreparedStatement pstm = this.connection.prepareStatement(UPDATE)) {
             pstm.setString(2, director.getName());
             pstm.setInt(3, director.getAge());
             pstm.setInt(1, directorId);
@@ -79,7 +82,7 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
             if (result > 0)
                 return true;
 
-        }catch (SQLException error){
+        } catch (SQLException error) {
             System.out.println("ERROR UPDATING DIRECTOR");
         }
         return false;
@@ -107,15 +110,15 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
     public boolean delete(Director director) {
         int directorDelete = director.getId();
 
-        try(PreparedStatement pstm = this.connection.prepareStatement(DELETE)){
-            pstm.setInt(1,directorDelete);
+        try (PreparedStatement pstm = this.connection.prepareStatement(DELETE)) {
+            pstm.setInt(1, directorDelete);
 
             int result = pstm.executeUpdate();
 
             if (result > 0)
                 return true;
 
-        }catch (SQLException error){
+        } catch (SQLException error) {
             System.out.println("ERROR DELETING DIRECTOR " + error);
         }
 
@@ -138,7 +141,7 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
                 String name = rs.getString("name");
                 int age = rs.getInt("age");
 
-                return new Director(id,name,age);
+                return new Director(id, name, age);
             }
         } catch (SQLException err) {
             System.out.println("ERROR TO SEARCH " + err);
@@ -162,7 +165,7 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
                 String name = rs.getString("name");
                 int age = rs.getInt("age");
 
-                return new Director(id,name,age);
+                return new Director(id, name, age);
             }
         } catch (SQLException err) {
             System.out.println("ERROR TO SEARCH " + err);
@@ -173,7 +176,7 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
     @Override
     public List<Director> searchByAge(int directorAge) {
 
-        int ageToSearch =  directorAge;
+        int ageToSearch = directorAge;
         List<Director> directorList = new ArrayList<>();
 
         try (PreparedStatement pstm = this.connection.prepareStatement(SELECT_BY_AGE)) {
@@ -185,7 +188,7 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 int age = rs.getInt("age");
-                directorList.add(new Director(id,name,age));
+                directorList.add(new Director(id, name, age));
             }
 
             return directorList;
