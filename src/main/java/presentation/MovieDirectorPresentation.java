@@ -5,7 +5,6 @@ import data.config.ConnectionDatabase;
 import data.pojos.MovieDirectorDTO;
 import domain.Director;
 import domain.Movie;
-
 import java.util.List;
 import java.util.Scanner;
 

@@ -34,7 +34,7 @@ public class DirectorPresentation {
 
         if (directorDAO.exists(directorExists))
             System.out.println(directorDAO.search(directorExists));
-        else System.out.println("MOVIE DOES NOT EXIST");
+        else System.out.println("DIRECTOR DOES NOT EXIST");
     }
 
     public static void update() {
@@ -51,19 +51,19 @@ public class DirectorPresentation {
 
         showUpdateDirectorOptions();
         int fieldToUpdate = directorInput.nextInt();
-        updateMovie(updateDirector, fieldToUpdate);
+        updateDirector(updateDirector, fieldToUpdate);
 
         if (directorDAO.update(updateDirector))
             System.out.println("UPDATED");
     }
 
     private static void showUpdateDirectorOptions() {
-        System.out.println("*UPDATING MOVIE*");
+        System.out.println("*UPDATING DIRECTOR*");
         System.out.println("1. UPDATE NAME");
         System.out.println("2. UPDATE AGE");
     }
 
-    private static void updateMovie(Director director, int option) {
+    private static void updateDirector(Director director, int option) {
         Scanner fieldUpdate = new Scanner(System.in);
 
         switch (option) {
@@ -81,7 +81,7 @@ public class DirectorPresentation {
     }
 
     public static void insert() {
-        Director director = createNewMovie();
+        Director director = createNewDirector();
 
         if (directorDAO.exists(director.getName())) {
             System.out.println("DIRECTOR ALREADY EXISTS");
@@ -92,7 +92,7 @@ public class DirectorPresentation {
 
     }
 
-    public static Director createNewMovie() {
+    public static Director createNewDirector() {
         Scanner insertInput = new Scanner(System.in);
 
         System.out.println("SET THE TITLE.");
@@ -105,36 +105,36 @@ public class DirectorPresentation {
         return new Director(name, age);
     }
 
-    public static void delete(){
+    public static void delete() {
         Scanner deleteInput = new Scanner(System.in);
 
         listDirector();
         System.out.println("SELECT DIRECTOR TO DELETE (ID)");
         System.out.print("> ");
-        int movieDelete = deleteInput.nextInt();
+        int directorDelete = deleteInput.nextInt();
 
-        for (Director director: directorDAO.list()) {
-            if (director.getId() == movieDelete){
+        for (Director director : directorDAO.list()) {
+            if (director.getId() == directorDelete) {
                 if (directorDAO.delete(director))
                     System.out.println("SUCCESS.");
             }
         }
     }
 
-    public static void search(){
+    public static void search() {
         Scanner searchInput = new Scanner(System.in);
 
-        System.out.println("TYPE THE MOVIE YOU WANT TO SEARCH (TITLE)");
+        System.out.println("TYPE THE DIRECTOR YOU WANT TO SEARCH (NAME)");
         System.out.print("> ");
-        String movieSearch = searchInput.next();
+        String directorSearch = searchInput.next();
+        Director director = directorDAO.search(directorSearch);
 
-
-        if (directorDAO.search(movieSearch) == null)
+        if (director == null)
             System.out.println("NOT FOUND.");
-        else System.out.println(directorDAO.search(movieSearch));
+        else System.out.println(director);
     }
 
-    public static void searchByName(){
+    public static void searchByName() {
         Scanner searchNameInput = new Scanner(System.in);
 
         System.out.println("TYPE THE DIRECTOR YOU WANT TO SEARCH (NAME)");
@@ -143,21 +143,21 @@ public class DirectorPresentation {
 
         Director director = directorDAO.searchByName(directorName);
 
-        if(director == null)
+        if (director == null)
             System.out.println("NOT FOUND");
         else System.out.println(director);
     }
 
-    public static void searchByAge(){
+    public static void searchByAge() {
         Scanner searchAgeInput = new Scanner(System.in);
 
-        System.out.println("TYPE THE MOVIE YOU WANT TO SEARCH (AGE)");
+        System.out.println("TYPE THE DIRECTOR YOU WANT TO SEARCH (AGE)");
         System.out.print("> ");
         int directorAge = searchAgeInput.nextInt();
 
         List<Director> directorList = directorDAO.searchByAge(directorAge);
 
-        if(directorList.isEmpty())
+        if (directorList.isEmpty())
             System.out.println("NO DIRECTORS FOUND WITH AGE " + directorAge);
         else System.out.println(directorList);
     }

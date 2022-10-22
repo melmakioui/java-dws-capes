@@ -1,8 +1,15 @@
 package data;
 
+import com.opencsv.CSVWriter;
+import csvwriter.ExportCSV;
 import data.config.ConnectionDatabase;
 import domain.Director;
 
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetFactory;
+import javax.sql.rowset.RowSetProvider;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +18,6 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
 
     private Connection connection;
     private ConnectionDatabase connectionDatabase;
-
     private final String SELECT = "SELECT * FROM director";
     private final String SELECT_LIKE = "SELECT * FROM director WHERE name LIKE ?";
     private final String SELECT_BY_NAME = "SELECT * FROM director WHERE name LIKE ?";
@@ -36,6 +42,7 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
         try (Statement stm = this.connection.createStatement();
              ResultSet result = stm.executeQuery(SELECT)) {
 
+
             while (result.next()) {
                 int id = result.getInt("id");
                 String name = result.getString("name");
@@ -43,6 +50,7 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
 
                 directors.add(new Director(id, name, age));
             }
+
         } catch (SQLException error) {
             System.out.println("ERROR LISTING DIRECTORS " + error);
         }
@@ -196,4 +204,6 @@ public class DataAccessDirectorImpl implements DataAccessDirector {
         }
         return null;
     }
+
+
 }

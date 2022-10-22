@@ -51,7 +51,6 @@ public class Presentation {
             exit();
     }
 
-
     private static void initMovieDirector(int option){
         MovieDirectorPresentation.init(connectionDatabase);
 
@@ -63,7 +62,7 @@ public class Presentation {
 
     private static void initMovie(int option){
 
-        MoviePresentation.initMoviePresentation(connectionDatabase);
+        MoviePresentation.init(connectionDatabase);
 
         switch (option) {
             case 3 -> MoviePresentation.listMovies();
@@ -112,13 +111,14 @@ public class Presentation {
         showMovieOptions();
         showDirectorOptions();
         System.out.println("21. EXIT");
+        System.out.print("> ");
     }
 
     private static void showMovieOptions(){
         System.out.println();
         System.out.println("-----MOVIE-----");
         System.out.println("3. LIST MOVIES");
-        System.out.println("4. CHECK IF EXISTS MOVIE");
+        System.out.println("4. CHECK IF MOVIE EXISTS");
         System.out.println("5. UPDATE MOVIE");
         System.out.println("6. INSERT MOVIE");
         System.out.println("7. DELETE MOVIE");
@@ -134,7 +134,7 @@ public class Presentation {
         System.out.println();
         System.out.println("-----DIRECTOR-----");
         System.out.println("13. LIST DIRECTORS");
-        System.out.println("14. CHECK IF EXISTS DIRECTOR");
+        System.out.println("14. CHECK IF DIRECTOR EXISTS");
         System.out.println("15. UPDATE DIRECTOR");
         System.out.println("16. INSERT DIRECTOR");
         System.out.println("17. DELETE DIRECTOR");
@@ -144,9 +144,9 @@ public class Presentation {
     }
 
     private static void csvOptions(){
-        System.out.println("---IMPORT/EXPORT---");
+        System.out.println("EXPORT");
         System.out.println("1. EXPORT DATA");
-        System.out.println("2. IMPORT DATA");
+
     }
 
     private static void exit(){

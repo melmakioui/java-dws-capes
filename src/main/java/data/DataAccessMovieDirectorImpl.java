@@ -17,18 +17,11 @@ public class DataAccessMovieDirectorImpl implements DataAccessMovieDirector {
 
     private Connection connection;
     private ConnectionDatabase connectionDatabase;
-    private MovieDAO movieDAO;
-    private DirectorDAO directorDAO;
-    private final String INSERT_MOVIE = "INSERT INTO movie (title,year,genre,duration) VALUES (?,?,?,?)";
-    private final String INSERT_DIRECTOR = "INSERT INTO director (name,age) VALUES (?,?)";
     private final String INSERT_RELATIONSHIP = "INSERT INTO movie_director (idMovie,idDirector) VALUES (?,?)";
-    private static final String SELECT_JOIN = "SELECT movie.*, director.* from movie,director where movie.id = director.id";
+    private static final String SELECT_JOIN = "SELECT movie.*, director.* FROM movie,director,movie_director WHERE movie.id = movie_director.idmovie AND movie_director.iddirector = director.id";
 
     public DataAccessMovieDirectorImpl(ConnectionDatabase connectionDatabase) {
         this.connectionDatabase = connectionDatabase;
-        this.movieDAO = new MovieDAOImpl(this.connectionDatabase);
-        this.directorDAO = new DirectorDAOImpl(this.connectionDatabase);
-
         try {
             this.connection = connectionDatabase.getConnection();
         } catch (SQLException error) {

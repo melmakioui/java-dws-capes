@@ -14,7 +14,7 @@ public class MoviePresentation {
     private static ConnectionDatabase connectionDatabase;
     private static MovieDAO movieDAO;
 
-    public static void initMoviePresentation(ConnectionDatabase conn){
+    public static void init(ConnectionDatabase conn){
         connectionDatabase = conn;
         movieDAO = new MovieDAOImpl(connectionDatabase);
     }
